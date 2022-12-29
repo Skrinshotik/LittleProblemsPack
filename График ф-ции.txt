@@ -1,0 +1,25 @@
+#include <iostream>
+#include <Windows.h>
+#include <cmath>
+#define graphic(x) (2 * sin(x) * pow(exp(1.0), 4 / 5))
+using namespace std;
+
+int main()
+{
+	float x;
+	int const o_x = 500, o_y = 200, p_size = 2, scale = 10;
+	float const left_b = -50, right_b = 50;
+	HDC hDC = GetDC(GetConsoleWindow());
+	HPEN Pen = CreatePen(PS_SOLID, p_size, RGB(255, 0, 0));
+	SelectObject(hDC, Pen);
+	MoveToEx(hDC, 0, o_y, NULL);
+	LineTo(hDC, 2*o_x, o_y);
+	MoveToEx(hDC, o_x, 0, NULL);
+	LineTo(hDC, o_x, 2*o_y);
+	for (x = left_b; x <= right_b; x += 0.01f) // O(l,v) - center
+	{
+		MoveToEx(hDC, scale * x + o_x, -scale * graphic(x) + o_y, NULL);//s - scale
+		LineTo(hDC, scale * x + o_x, -scale * graphic(x) + o_y);
+	}
+	Sleep(200000);
+}
